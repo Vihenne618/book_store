@@ -31,7 +31,7 @@ public class BooksManagementController {
 
     @GetMapping("/remove")
     @Operation( summary = "remove a book", description = "remove a book", method="GET" )
-    Boolean RemoveBooks(@PathVariable Long bookId){
+    Boolean RemoveBooks(@RequestParam Long bookId){
         return booksManagementService.RemoveBooks(bookId);
     }
 

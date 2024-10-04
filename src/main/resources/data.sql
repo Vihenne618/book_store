@@ -1,9 +1,4 @@
 
-CREATE TABLE client (
-    client_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    client_name VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE book (
     book_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     book_title VARCHAR(255) NOT NULL,
@@ -13,8 +8,7 @@ CREATE TABLE book (
 );
 
 CREATE TABLE shopping_cart (
-    cart_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL
+    cart_id BIGINT AUTO_INCREMENT PRIMARY KEY
 );
 
 CREATE TABLE shopping_cart_item (
@@ -23,8 +17,6 @@ CREATE TABLE shopping_cart_item (
     book_id BIGINT NOT NULL
 );
 
-INSERT INTO client (client_name) VALUES ('Root');
-INSERT INTO client (client_name) VALUES ('Cyh');
 
 
 
