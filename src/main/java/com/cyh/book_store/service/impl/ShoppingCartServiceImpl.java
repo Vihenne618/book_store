@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
@@ -28,6 +30,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private BookRepository bookRepository;
 
+    private final Lock lock = new ReentrantLock();
+
     @Override
     public ShoppingCartResp AddToCart(ShoppingCartAddReq req) {
         // check book
@@ -35,35 +39,45 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (book.isEmpty()){
             return null;
         }
-
-        // check ShoppingCart
-        ShoppingCart shoppingCart = new ShoppingCart();
-        if (req.getCartId() == null){
-            shoppingCartRepository.save(shoppingCart);
-        }else {
-            Optional<ShoppingCart> shoppingCartOptional = shoppingCartRepository.findById(req.getCartId());
-            if(shoppingCartOptional.isEmpty()){
+        lock.lock();
+        ShoppingCart shoppingCart = null;
+        try {
+            // check ShoppingCart
+            shoppingCart = new ShoppingCart();
+            if (req.getCartId() == null){
                 shoppingCartRepository.save(shoppingCart);
             }else {
-                shoppingCart = shoppingCartOptional.get();
+                Optional<ShoppingCart> shoppingCartOptional = shoppingCartRepository.findById(req.getCartId());
+                if(shoppingCartOptional.isEmpty()){
+                    shoppingCartRepository.save(shoppingCart);
+                }else {
+                    shoppingCart = shoppingCartOptional.get();
+                }
             }
-        }
 
-        //
-        ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
-        shoppingCartItem.setCartId(shoppingCart.getCartId());
-        shoppingCartItem.setBookId(req.getBookId());
-        shoppingCartItemRepository.save(shoppingCartItem);
+            //
+            ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
+            shoppingCartItem.setCartId(shoppingCart.getCartId());
+            shoppingCartItem.setBookId(req.getBookId());
+            shoppingCartItemRepository.save(shoppingCartItem);
+        } finally {
+            lock.unlock();
+        }
         return this.showCart(shoppingCart.getCartId());
     }
 
     @Override
     public Boolean removeFromCart(ShoppingCartRemoveReq req) {
-        ShoppingCartItem shoppingCartItem = shoppingCartItemRepository.findByCartIdAndBookId(req.getCartId(), req.getBookId());
-        if (shoppingCartItem == null){
-            return false;
+        lock.lock();
+        try {
+            ShoppingCartItem shoppingCartItem = shoppingCartItemRepository.findByCartIdAndBookId(req.getCartId(), req.getBookId());
+            if (shoppingCartItem == null){
+                return false;
+            }
+            shoppingCartItemRepository.deleteById(shoppingCartItem.getCartItemId());
+        } finally {
+            lock.unlock();
         }
-        shoppingCartItemRepository.deleteById(shoppingCartItem.getCartItemId());
         return true;
     }
 
