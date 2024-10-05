@@ -42,7 +42,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void testShoppingCartOperations() throws IOException {
+    public void test() throws IOException {
         // 1. add book to Shopping Cart
         System.out.println("[1] Test the Shopping Cart add API");
         ShoppingCartAddReq shoppingCartAddReq = new ShoppingCartAddReq(null, 1L);

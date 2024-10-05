@@ -62,7 +62,7 @@ public class CheckoutTest {
     }
 
     @Test
-    public void testCheckOutOperations() throws IOException {
+    public void test() throws IOException {
         System.out.println("[1] Test the CheckOut API");
         Long cartId = 1L;
         ResponseEntity<CheckOutResp> response = restTemplate.exchange(

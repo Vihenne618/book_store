@@ -25,7 +25,7 @@ public class BooksManagementTest {
 
     // test method
     @Test
-    public void testBookOperations() throws IOException {
+    public void test() throws IOException {
         // 1. add book
         System.out.println("[1] Test the book add API");
         BookAddReq bookAddReq = new BookAddReq("Book 1", "CYH", new BigDecimal("10.99"), "Science fiction");
