@@ -2,9 +2,9 @@
 
 ### 1.SetUp
 
-| **Framework**    | **Data Persistence** | Java    | API Doc       |
-| :--------------- | -------------------- | ------- | ------------- |
-| SpringBoot 3.3.4 | H2                   | 11.0.24 | OpenAPI 2.0.2 |
+| **Framework**    | **Data Persistence** | Java | API Doc       |
+| :--------------- | -------------------- | ---- | ------------- |
+| SpringBoot 3.3.4 | H2                   | 17   | OpenAPI 2.0.2 |
 
 [GitHub repository]: https://github.com/Vihenne618/book_store.git
 [API Documentation]: http://127.0.0.1:8080/swagger-ui/index.html#/
