@@ -13,7 +13,7 @@ public class CheckoutController {
     @Autowired
     CheckOutService checkOutService;
 
-    @PostMapping("/opera")
+    @GetMapping("/opera")
     @Operation( summary = "Check out the shopping cart", description = "Check out the shopping cart", method="GET")
     CheckOutResp checkout(@RequestParam Long cartId){
         return checkOutService.checkout(cartId);

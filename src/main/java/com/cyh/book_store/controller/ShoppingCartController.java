@@ -28,7 +28,7 @@ public class ShoppingCartController {
         return shoppingCartService.removeFromCart(req);
     }
 
-    @PostMapping("/show")
+    @GetMapping("/show")
     @Operation( summary = "List Shopping Car", description = "List Shopping Car", method="GET")
     ShoppingCartResp showCart(@RequestParam Long cartId){
         return shoppingCartService.showCart(cartId);
